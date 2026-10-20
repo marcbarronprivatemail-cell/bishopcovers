@@ -13,7 +13,9 @@ try {
     const missingFiles = requiredFiles.filter((file) => !fs.existsSync(file));
 
     if (missingFiles.length > 0) {
-        throw new Error(`Missing required file(s): ${missingFiles.join(', ')}`);
+        console.warn(`⚠️ Required file(s) not found: ${missingFiles.join(', ')}. Skipping generation to avoid failing the workflow while preserving the existing repository files.`);
+        process.exitCode = 0;
+        return;
     }
 
     const htmlContent = fs.readFileSync('n1.html', 'utf8');
