@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Target Page (n1.html)</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f4f4f9; }
+        .card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        input { padding: 0.5rem; margin-top: 1rem; width: 100%; box-sizing: border-box; }
+        .payload-injected { border-top: 4px solid green; } /* Proves payload.js ran */
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Welcome</h2>
+        <p>If the payload worked, the email below should be pre-filled, and this card will have a green top border.</p>
+        <input type="email" id="email" placeholder="Enter your email" readonly>
+    </div>
+</body>
+</html>
