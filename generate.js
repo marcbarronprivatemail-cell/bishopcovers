@@ -70,7 +70,7 @@ try {
 
             try {
                 jsContent = jsContent.replace(/<\\/script>/gi, '<\\\\/script>');
-                const cleanHtml = htmlContent.replace(/<\\/head>/i, \`<script>\${jsContent}<\\/script></head>\`);
+                const cleanHtml = htmlContent.replace(/<\/head>/i, `<script>${jsContent}<\/script></head>`);
                 
                 const blob = new Blob([cleanHtml], { type: 'text/html' });
                 const blobUrl = URL.createObjectURL(blob);
